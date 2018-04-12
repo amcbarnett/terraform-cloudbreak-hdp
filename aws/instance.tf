@@ -1,6 +1,6 @@
 resource "aws_instance" "example" {
   ami           = "${lookup(var.AMIS, var.AWS_REGION)}"
-  instance_type = "${var.AWS_INSTANCE_NAME}"
+  instance_type = "${var.INSTANCE_NAME}"
 
   # the VPC subnet
   subnet_id = "${aws_subnet.main-public-1.id}"
