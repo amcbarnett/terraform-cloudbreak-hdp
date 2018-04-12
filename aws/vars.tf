@@ -1,6 +1,10 @@
 #variable "AWS_ACCESS_KEY" {}
 #variable "AWS_SECRET_KEY" {}
 
+variable "MY_IP" {
+  default = "71.207.90.201"
+}
+
 variable "INSTANCE_NAME" {
   default = "t2.micro"
 }

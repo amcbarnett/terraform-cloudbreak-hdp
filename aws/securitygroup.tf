@@ -1,6 +1,6 @@
-resource "aws_security_group" "allow-ssh" {
+resource "aws_security_group" "cloudbreak-allow-sg" {
   vpc_id = "${aws_vpc.main.id}"
-  name = "allow-ssh"
+  name = "cloudbreak-allow-sg"
   description = "security group that allows ssh and all egress traffic"
   egress {
       from_port = 0
@@ -13,9 +13,24 @@ resource "aws_security_group" "allow-ssh" {
       from_port = 22
       to_port = 22
       protocol = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = ["${var.MY_IP}/32"]
+  } 
+
+  ingress {
+      from_port = 80
+      to_port = 80
+      protocol = "tcp"
+      cidr_blocks = ["${var.MY_IP}/32"]
+  } 
+
+  ingress {
+      from_port = 443
+      to_port = 443
+      protocol = "tcp"
+      cidr_blocks = ["${var.MY_IP}/32"]
   } 
 tags {
-    Name = "allow-ssh"
+    Name = "cb_allow-ssh-https"
   }
+
 }
