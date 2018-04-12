@@ -9,7 +9,8 @@ resource "aws_instance" "example" {
   vpc_security_group_ids = ["${aws_security_group.cloudbreak-allow-sg.id}"]
 
   # the public SSH key
-  key_name = "${aws_key_pair.mykeypair.key_name}"
+  #key_name = "${aws_key_pair.mykeypair.key_name}"
+  key_name = "${var.SSH_KEY_NAME}"
 
   tags {
     Name = "CloudBreak-2.5-Deploy"
