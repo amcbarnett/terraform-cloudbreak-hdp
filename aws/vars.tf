@@ -7,7 +7,7 @@ variable "SSH_KEY_NAME" {
 }
 
 variable "MY_IP" {
-  default = "0.0.0.0
+  default = "0.0.0.0"
 }
 
 variable "INSTANCE_NAME" {
