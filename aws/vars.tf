@@ -1,8 +1,13 @@
 #variable "AWS_ACCESS_KEY" {}
 #variable "AWS_SECRET_KEY" {}
 
+variable "SSH_KEY_NAME" {
+  default = "cloudbreakkeypair"
+  description = "Pre-existing AWS key name you will use to access the instance(s)"
+}
+
 variable "MY_IP" {
-  default = "71.207.90.201"
+  default = "0.0.0.0
 }
 
 variable "INSTANCE_NAME" {
