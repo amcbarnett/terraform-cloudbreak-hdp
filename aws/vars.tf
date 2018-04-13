@@ -53,8 +53,8 @@ variable "UAA_DEFAULT_SECRET" {
   description = "Secret Used for Cloudbread Deployer"
 }
 
-variable "UAA_DEFAULT_USER" {
-  description = "Default User for Cloudbread Deployer to log into UI"
+variable "UAA_DEFAULT_USER_PW" {
+  description = "Default User password for Cloudbread Deployer to log into UI"
 }
 
 variable "UAA_DEFAULT_USER_EMAIL" {
