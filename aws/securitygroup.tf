@@ -13,21 +13,21 @@ resource "aws_security_group" "cloudbreak-allow-sg" {
       from_port = 22
       to_port = 22
       protocol = "tcp"
-      cidr_blocks = ["${var.MY_IP}/32"]
+      cidr_blocks = ["${var.MY_IP}"]
   } 
 
   ingress {
       from_port = 80
       to_port = 80
       protocol = "tcp"
-      cidr_blocks = ["${var.MY_IP}/32"]
+      cidr_blocks = ["${var.MY_IP}"]
   } 
 
   ingress {
       from_port = 443
       to_port = 443
       protocol = "tcp"
-      cidr_blocks = ["${var.MY_IP}/32"]
+      cidr_blocks = ["${var.MY_IP}"]
   } 
 tags {
     Name = "cb_allow-ssh-https"
