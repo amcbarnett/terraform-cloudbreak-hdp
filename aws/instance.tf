@@ -25,7 +25,7 @@ resource "aws_instance" "example" {
 
  provisioner "remote-exec" {
    inline = [
-    "cd /var/lib/cloudbreak-deployment/" 
+    "cd /var/lib/cloudbreak-deployment/",
     "chmod +x runcbd.sh",
     "./runcbd.sh ${var.UAA_DEFAULT_SECRET} ${var.UAA_DEFAULT_USER_PW} ${var.UAA_DEFAULT_USER_EMAIL}"
   ]
