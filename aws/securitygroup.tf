@@ -28,7 +28,17 @@ resource "aws_security_group" "cloudbreak-allow-sg" {
       to_port = 443
       protocol = "tcp"
       cidr_blocks = ["${var.MY_IP}"]
+  }
+
+  
+  ingress {
+      from_port = 22
+      to_port = 22
+      protocol = "tcp"
+      cidr_blocks = ["${var.TFE_IP}"]
   } 
+
+ 
 tags {
     Name = "cb_allow-ssh-https"
   }
