@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # sleep until instance is ready
+cd /var/lib/cloudbreak-deployment/
 
 cat > Profile << EOF
 export UAA_DEFAULT_SECRET=$1

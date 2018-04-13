@@ -7,7 +7,9 @@ variable "SSH_KEY_NAME" {
 }
 
 variable "MY_IP" {
-  default = "0.0.0.0/0"
+  #default = "0.0.0.0/0"
+  #TFE Saas IP Address
+  default ="54.87.174.74/32"
 }
 
 variable "INSTANCE_NAME" {
