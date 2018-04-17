@@ -1,10 +1,6 @@
 #variable "AWS_ACCESS_KEY" {}
 #variable "AWS_SECRET_KEY" {}
 
-credentials = "${var.gcp_credentials}"
-  project     = "${var.gcp_project}"
-  region      = "${var.gcp_region}"
-  
 variable "gcp_credentials" {
   description = "Google Credentials"
 }
