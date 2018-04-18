@@ -11,7 +11,7 @@ variable "gcp_region" {
   description = "See all regions https://cloud.google.com/compute/docs/regions-zones/"
 }
 
-variable "var.environment_name" {
+variable "environment_name" {
   default = "cloudbreak-vpc"
 }
 
@@ -32,13 +32,12 @@ variable "vpc_cidrs_private" {
 }
 
 variable "MY_IP" {
-  description = "Enter your public IP"
+  description = "Enter your public IP of format x.x.x.x/32"
 }
 
 variable "TFE_IP" {
-  #default = "0.0.0.0/0"
   #TFE Saas IP Address
-  default ="54.87.174.74/32"
+  default = "0.0.0.0/0"
 }
 /*
 variable "SSH_KEY_NAME" {
