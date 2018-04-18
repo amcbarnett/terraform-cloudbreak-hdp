@@ -48,6 +48,6 @@ resource "google_compute_firewall" "nat-egress" {
     ports    = ["1-65535"]
   }
   direction = "EGRESS"
-  destination_ranges = ["${var.vpc_cidr}"]
+  destination_ranges = ["0.0.0.0/0"]
   target_tags   = ["cb-allow-egress"]
 }

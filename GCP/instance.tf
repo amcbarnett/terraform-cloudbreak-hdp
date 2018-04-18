@@ -34,7 +34,7 @@ resource "google_project_iam_member" "cb-securityadmin-iam" {
   member  = "serviceAccount:${google_service_account.cloudbreak-gcp-service.email}"
 }
 
-resource "google_project_iam_member" "cb-networkadmin-iam" {
+resource "google_project_iam_member" "cb-storageadmin-iam" {
   project = "${var.gcp_project}"
   role    = "roles/storage.admin"
   member  = "serviceAccount:${google_service_account.cloudbreak-gcp-service.email}"
