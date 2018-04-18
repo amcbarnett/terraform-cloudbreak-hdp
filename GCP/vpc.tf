@@ -39,6 +39,7 @@ resource "google_compute_subnetwork" "private" {
 #
 # Public
 #
+/*
 resource "google_compute_route" "public" {
   count = "${length(var.vpc_cidrs_public)}"
 
@@ -53,3 +54,4 @@ resource "google_compute_route" "public" {
     "zone-${element(google_compute_subnetwork.public.*.name,count.index)}",
   ]
 }
+*/
