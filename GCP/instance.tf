@@ -1,7 +1,7 @@
 resource "google_service_account" "cloudbreak-gcp-service" {
   account_id   = "cloudbreak-gcp-service"
   display_name = "cloudbreak-gcp-service"
-  project = "${var.gcp_region}"
+  project = "${var.gcp_project}"
 }
 
 resource "google_service_account_key" "acceptance" {
@@ -10,26 +10,35 @@ resource "google_service_account_key" "acceptance" {
 }
 
 
-resource "google_service_account_iam_binding" "cb-computeuser-iam" {
-  service_account_id = "${google_service_account.cloudbreak-gcp-service.unique_id}"
-  role        = "roles/compute.imageUser"
-
-  members = [
-    "user:ancil@hashicorp.com",
-  ]
+resource "google_project_iam_member" "cb-computeuser-iam" {
+  project = "${var.gcp_project}"
+  role    = "roles/compute.imageUser"
+  member  = "serviceAccount:${google_service_account.cloudbreak-gcp-service.email}"
 }
 
-resource "google_service_account_iam_binding" "cb-instanceadmin-iam" {
-  service_account_id = "${google_service_account.cloudbreak-gcp-service.unique_id}"
-  role        = "roles/compute.instanceAdmin.v1"
-
-  members = [
-    "user:ancil@hashicorp.com",
-  ]
+resource "google_project_iam_member" "cb-instanceadmin-iam" {
+  project = "${var.gcp_project}"
+  role    = "roles/compute.instanceAdmin.v1"
+  member  = "serviceAccount:${google_service_account.cloudbreak-gcp-service.email}"
 }
 
+resource "google_project_iam_member" "cb-networkadmin-iam" {
+  project = "${var.gcp_project}"
+  role    = "roles/compute.networkAdmin"
+  member  = "serviceAccount:${google_service_account.cloudbreak-gcp-service.email}"
+}
 
+resource "google_project_iam_member" "cb-securityadmin-iam" {
+  project = "${var.gcp_project}"
+  role    = "roles/compute.securityAdmin"
+  member  = "serviceAccount:${google_service_account.cloudbreak-gcp-service.email}"
+}
 
+resource "google_project_iam_member" "cb-storageadmin-iam" {
+  project = "${var.gcp_project}"
+  role    = "roles/storage.admin"
+  member  = "serviceAccount:${google_service_account.cloudbreak-gcp-service.email}"
+}
 
 /*
 
@@ -54,14 +63,7 @@ resource "google_compute_instance" "demo" {
 
 }
 
-module "network-gcp" {
-  source           = "git::ssh://git@github.com/hashicorp-modules/network-gcp"
-  environment_name = "${random_id.environment_name.hex}"
-  os               = "${var.os}"
-  os_version       = "${var.os_version}"
-  ssh_key_data     = "${module.ssh-keypair-data.public_key_data}"
-  ssh_user         = "${var.ssh_user}"
-}
+
 
 resource "google_compute_backend_service" "MyResource" {
    name = "example-name"

@@ -9,103 +9,47 @@
         Name = "cloudbreak-vpc"
     }
 }
-
+*/
+resource "google_compute_network" "main" {
+  name                    = "${var.environment_name}"
+  description = "VPC Network for Cloudbreak"
+  auto_create_subnetworks = false
+  routing_mode = "REGIONAL"
+}
 
 # Subnets
-resource "aws_subnet" "main-public-1" {
-    vpc_id = "${aws_vpc.main.id}"
-    cidr_block = "10.0.1.0/24"
-    map_public_ip_on_launch = "true"
-    availability_zone = "${var.AWS_REGION}a"
+resource "google_compute_subnetwork" "public" {
+  count = "${length(var.vpc_cidrs_public)}"
 
-    tags {
-        Name = "main-public-1"
-    }
-}
-resource "aws_subnet" "main-public-2" {
-    vpc_id = "${aws_vpc.main.id}"
-    cidr_block = "10.0.2.0/24"
-    map_public_ip_on_launch = "true"
-    availability_zone = "${var.AWS_REGION}b"
-
-    tags {
-        Name = "main-public-2"
-    }
-}
-resource "aws_subnet" "main-public-3" {
-    vpc_id = "${aws_vpc.main.id}"
-    cidr_block = "10.0.3.0/24"
-    map_public_ip_on_launch = "true"
-    availability_zone = "${var.AWS_REGION}c"
-
-    tags {
-        Name = "main-public-3"
-    }
-}
-resource "aws_subnet" "main-private-1" {
-    vpc_id = "${aws_vpc.main.id}"
-    cidr_block = "10.0.4.0/24"
-    map_public_ip_on_launch = "false"
-    availability_zone = "${var.AWS_REGION}a"
-
-    tags {
-        Name = "main-private-1"
-    }
-}
-resource "aws_subnet" "main-private-2" {
-    vpc_id = "${aws_vpc.main.id}"
-    cidr_block = "10.0.5.0/24"
-    map_public_ip_on_launch = "false"
-    availability_zone = "${var.AWS_REGION}b"
-
-    tags {
-        Name = "main-private-2"
-    }
-}
-resource "aws_subnet" "main-private-3" {
-    vpc_id = "${aws_vpc.main.id}"
-    cidr_block = "10.0.6.0/24"
-    map_public_ip_on_launch = "false"
-    availability_zone = "${var.AWS_REGION}c"
-
-    tags {
-        Name = "main-private-3"
-    }
+  name          = "${var.environment_name}-public-${count.index}"
+  ip_cidr_range = "${element(var.vpc_cidrs_public,count.index)}"
+  network       = "${google_compute_network.main.self_link}"
+  region        = "${var.gcp_region}"
 }
 
-# Internet GW
-resource "aws_internet_gateway" "main-gw" {
-    vpc_id = "${aws_vpc.main.id}"
+resource "google_compute_subnetwork" "private" {
+  count = "${length(var.vpc_cidrs_private)}"
 
-    tags {
-        Name = "main"
-    }
-}
-
-# route tables
-resource "aws_route_table" "main-public" {
-    vpc_id = "${aws_vpc.main.id}"
-    route {
-        cidr_block = "0.0.0.0/0"
-        gateway_id = "${aws_internet_gateway.main-gw.id}"
-    }
-
-    tags {
-        Name = "main-public-1"
-    }
+  name          = "${var.environment_name}-private-${count.index}"
+  ip_cidr_range = "${element(var.vpc_cidrs_private,count.index)}"
+  network       = "${google_compute_network.main.self_link}"
+  region        = "${var.gcp_region}"
 }
 
-# route associations public
-resource "aws_route_table_association" "main-public-1-a" {
-    subnet_id = "${aws_subnet.main-public-1.id}"
-    route_table_id = "${aws_route_table.main-public.id}"
+#
+# Public
+#
+resource "google_compute_route" "public" {
+  count = "${length(var.vpc_cidrs_public)}"
+
+  name                   = "${var.environment_name}-public-${count.index}"
+  dest_range             = "0.0.0.0/0"
+  network                = "${google_compute_network.main.name}"
+  next_hop_gateway       = "${element(google_compute_subnetwork.public.*.gateway_address,count.index)}"
+  priority               = 100
+
+  tags = [
+    "public-subnet",
+    #"zone-${element(google_compute_subnetwork.public.*.gateway_address,count.index)}",
+  ]
 }
-resource "aws_route_table_association" "main-public-2-a" {
-    subnet_id = "${aws_subnet.main-public-2.id}"
-    route_table_id = "${aws_route_table.main-public.id}"
-}
-resource "aws_route_table_association" "main-public-3-a" {
-    subnet_id = "${aws_subnet.main-public-3.id}"
-    route_table_id = "${aws_route_table.main-public.id}"
-}
-*/
