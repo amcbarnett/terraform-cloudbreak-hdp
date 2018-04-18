@@ -50,6 +50,6 @@ resource "google_compute_route" "public" {
 
   tags = [
     "public-subnet",
-    "zone-${element(google_compute_subnetwork.public.*.gateway_address,count.index)}",
+    "zone-${element(google_compute_subnetwork.public.*.name,count.index)}",
   ]
 }
