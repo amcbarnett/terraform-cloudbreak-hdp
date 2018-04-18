@@ -45,7 +45,7 @@ resource "google_compute_route" "public" {
   name                   = "${var.environment_name}-public-${count.index}"
   dest_range             = "0.0.0.0/0"
   network                = "${google_compute_network.main.name}"
-  next_hop_gateway       = "${element(google_compute_subnetwork.public.*.self_link,count.index)}"
+  next_hop_ip            = "${element(google_compute_subnetwork.public.*.gateway_address,count.index)}"
   priority               = 100
 
   tags = [
