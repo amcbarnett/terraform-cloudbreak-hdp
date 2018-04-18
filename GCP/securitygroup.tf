@@ -1,47 +1,53 @@
-/*resource "aws_security_group" "cloudbreak-allow-sg" {
-  vpc_id = "${aws_vpc.main.id}"
-  name = "cloudbreak-allow-sg"
-  description = "security group that allows ssh and all egress traffic"
-  egress {
-      from_port = 0
-      to_port = 0
-      protocol = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
+
+/* INGRESS */
+resource "google_compute_firewall" "nat" {
+  name    = "${var.environment_name}-nat-ingress"
+  network = "${google_compute_network.main.name}"
+
+  allow {
+    protocol = "icmp"
   }
 
-  ingress {
-      from_port = 22
-      to_port = 22
-      protocol = "tcp"
-      cidr_blocks = ["${var.MY_IP}"]
-  } 
-
-  ingress {
-      from_port = 80
-      to_port = 80
-      protocol = "tcp"
-      cidr_blocks = ["${var.MY_IP}"]
-  } 
-
-  ingress {
-      from_port = 443
-      to_port = 443
-      protocol = "tcp"
-      cidr_blocks = ["${var.MY_IP}"]
+  allow {
+    protocol = "tcp"
+    ports    = ["22", "443" , "80"]
   }
+
+  source_ranges = ["${var.MY_IP}"]
+  target_tags   = ["cb_allow-ssh-https"]
+}
+
+/* INGRESS ONLY FOR TFE */
+resource "google_compute_firewall" "nat-tfe" {
+  name    = "${var.environment_name}-nat-tfe"
+  network = "${google_compute_network.main.name}"
 
   
-  ingress {
-      from_port = 22
-      to_port = 22
-      protocol = "tcp"
-      cidr_blocks = ["${var.TFE_IP}"]
-  } 
-
- 
-tags {
-    Name = "cb_allow-ssh-https"
+  allow {
+    protocol = "tcp"
+    ports    = ["22"]
   }
 
+  source_ranges = ["${var.TFE_IP}"]
+  target_tags   = ["cb_tfe_allow-ssh"]
 }
-*/
+
+# EGRESS #
+resource "google_compute_firewall" "nat-egress" {
+  name    = "${var.environment_name}-nat-egress"
+  network = "${google_compute_network.main.name}"
+
+  
+  allow {
+    protocol = "tcp"
+    ports    = ["1-65535"]
+  }
+
+  allow {
+    protocol = "udp"
+    ports    = ["1-65535"]
+  }
+  direction = "EGRESS"
+  destination_ranges = ["${var.vpc_cidr}"]
+  target_tags   = ["cb-allow-egress"]
+}

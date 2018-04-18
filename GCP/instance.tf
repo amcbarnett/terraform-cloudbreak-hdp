@@ -22,9 +22,23 @@ resource "google_project_iam_member" "cb-instanceadmin-iam" {
   member  = "serviceAccount:${google_service_account.cloudbreak-gcp-service.email}"
 }
 
+resource "google_project_iam_member" "cb-networkadmin-iam" {
+  project = "${var.gcp_project}"
+  role    = "roles/compute.networkAdmin"
+  member  = "serviceAccount:${google_service_account.cloudbreak-gcp-service.email}"
+}
 
+resource "google_project_iam_member" "cb-securityadmin-iam" {
+  project = "${var.gcp_project}"
+  role    = "roles/compute.securityAdmin"
+  member  = "serviceAccount:${google_service_account.cloudbreak-gcp-service.email}"
+}
 
-
+resource "google_project_iam_member" "cb-networkadmin-iam" {
+  project = "${var.gcp_project}"
+  role    = "roles/storage.admin"
+  member  = "serviceAccount:${google_service_account.cloudbreak-gcp-service.email}"
+}
 
 /*
 
@@ -49,14 +63,7 @@ resource "google_compute_instance" "demo" {
 
 }
 
-module "network-gcp" {
-  source           = "git::ssh://git@github.com/hashicorp-modules/network-gcp"
-  environment_name = "${random_id.environment_name.hex}"
-  os               = "${var.os}"
-  os_version       = "${var.os_version}"
-  ssh_key_data     = "${module.ssh-keypair-data.public_key_data}"
-  ssh_user         = "${var.ssh_user}"
-}
+
 
 resource "google_compute_backend_service" "MyResource" {
    name = "example-name"

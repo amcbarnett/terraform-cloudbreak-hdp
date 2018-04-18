@@ -1,6 +1,3 @@
-#variable "AWS_ACCESS_KEY" {}
-#variable "AWS_SECRET_KEY" {}
-
 variable "gcp_credentials" {
   description = "Google Credentials"
 }
@@ -14,14 +11,28 @@ variable "gcp_region" {
   description = "See all regions https://cloud.google.com/compute/docs/regions-zones/"
 }
 
-/*
-variable "SSH_KEY_NAME" {
-  default = "cloudbreakkeypair"
-  description = "Pre-existing AWS key name you will use to access the instance(s)"
+variable "var.environment_name" {
+  default = "cloudbreak-vpc"
+}
+
+variable "vpc_cidrs_public" {
+  default = [
+    "10.0.1.0/24",
+    "10.0.2.0/24",
+    "10.0.3.0/24",
+  ]
+}
+
+variable "vpc_cidrs_private" {
+  default = [
+    "10.0.4.0/24",
+    "10.0.5.0/24",
+    "10.0.6.0/24",
+  ]
 }
 
 variable "MY_IP" {
-  default = "0.0.0.0/0"
+  description = "Enter your public IP"
 }
 
 variable "TFE_IP" {
@@ -29,6 +40,13 @@ variable "TFE_IP" {
   #TFE Saas IP Address
   default ="54.87.174.74/32"
 }
+/*
+variable "SSH_KEY_NAME" {
+  default = "cloudbreakkeypair"
+  description = "Pre-existing AWS key name you will use to access the instance(s)"
+}
+
+
 
 variable "INSTANCE_NAME" {
   default = "t2.micro"
@@ -38,9 +56,7 @@ variable "INSTANCE_USERNAME" {
   default = "cloudbreak"
 }
 
-variable "AWS_REGION" {
-  default = "us-east-1"
-}
+
 
 variable "PATH_TO_PRIVATE_KEY" {
   default = "cloudbreakkeypair.pem"
