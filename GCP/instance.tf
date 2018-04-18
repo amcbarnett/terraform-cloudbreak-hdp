@@ -1,7 +1,7 @@
 resource "google_service_account" "cloudbreak-gcp-service" {
   account_id   = "cloudbreak-gcp-service"
   display_name = "cloudbreak-gcp-service"
-  project = "${var.gcp_region}"
+  project = "${var.gcp_project}"
 }
 
 resource "google_service_account_key" "acceptance" {
