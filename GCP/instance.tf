@@ -11,7 +11,7 @@ resource "google_service_account_key" "acceptance" {
 
 
 resource "google_service_account_iam_binding" "cb-computeuser-iam" {
-  service_account_id = "${google_service_account.cloudbreak-gcp-service.unique_id}"
+  service_account_id = "${google_service_account.cloudbreak-gcp-service.name}"
   role        = "roles/compute.imageUser"
 
   members = [
@@ -20,7 +20,7 @@ resource "google_service_account_iam_binding" "cb-computeuser-iam" {
 }
 
 resource "google_service_account_iam_binding" "cb-instanceadmin-iam" {
-  service_account_id = "${google_service_account.cloudbreak-gcp-service.unique_id}"
+  service_account_id = "${google_service_account.cloudbreak-gcp-service.name}"
   role        = "roles/compute.instanceAdmin.v1"
 
   members = [
