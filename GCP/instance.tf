@@ -5,7 +5,10 @@ resource "google_compute_image" "cloudbreak-deployer" {
   name = "cloudbreak-deployer-250-2018-04-03"
   project = "${var.gcp_project}"
 
-  create_timeout = "10m0s"
+  timeouts {
+    create = "60m"
+    delete = "2h"
+  }
  
   raw_disk {
     source ="https://storage.googleapis.com/sequenceiqimage/cloudbreak-deployer-250-2018-04-03.tar.gz"
