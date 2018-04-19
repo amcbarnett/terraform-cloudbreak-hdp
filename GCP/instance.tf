@@ -22,7 +22,7 @@ resource "google_compute_instance" "demo" {
   machine_type = "${var.INSTANCE_NAME}"
   #zone         = "${element(data.google_compute_zones.main.names,count.index)}"
   zone         = "${element(data.google_compute_zones.main.names,1)}"
-  tags = ["version", "2.5"]
+  tags = ["version", "2-5"]
 
   boot_disk {
     initialize_params {
