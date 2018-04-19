@@ -4,7 +4,10 @@
 resource "google_compute_image" "cloudbreak-deployer" {
   name = "cloudbreak-deployer-250-2018-04-03"
   project = "${var.gcp_project}"
-  source_disk = "gs://sequenceiqimage/cloudbreak-deployer-250-2018-04-03.tar.gz"
+ 
+  rawDisk {
+    source ="https://storage.googleapis.com/sequenceiqimage/cloudbreak-deployer-250-2018-04-03.tar.gz"
+  }
 }
 
 data "google_compute_zones" "main" {}
