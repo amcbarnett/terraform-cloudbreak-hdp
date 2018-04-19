@@ -6,7 +6,7 @@ resource "google_compute_image" "cloudbreak-deployer" {
   project = "${var.gcp_project}"
 
   timeouts {
-    create = "60m"
+    create = "10m"
     delete = "2h"
   }
  

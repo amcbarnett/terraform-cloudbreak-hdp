@@ -39,3 +39,10 @@ resource "google_project_iam_member" "cb-storageadmin-iam" {
   role    = "roles/storage.admin"
   member  = "serviceAccount:${google_service_account.cloudbreak-gcp-service.email}"
 }
+
+resource "google_project_iam_member" "cb-accountservice-iam" {
+  project = "${var.gcp_project}"
+  role    = "roles/iam.serviceAccountUser"
+  member  = "serviceAccount:${google_service_account.cloudbreak-gcp-service.email}"
+}
+
