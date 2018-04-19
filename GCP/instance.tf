@@ -41,7 +41,7 @@ resource "google_compute_instance" "demo" {
    service_account {
     email = "{google_service_account.cloudbreak-gcp-service.email}" 
    # scopes = ["userinfo-email", "compute-ro", "storage-ro"]
-   #scopes = ["default"]
+   scopes = ["cloud-platform", "storage-full"]
   }
 
 }
