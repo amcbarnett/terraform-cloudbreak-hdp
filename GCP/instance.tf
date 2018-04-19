@@ -32,7 +32,7 @@ resource "google_compute_instance" "demo" {
 
   network_interface {
     network = "${google_compute_network.main.self_link}"
-
+    subnetwork = "${element(google_compute_subnetwork.public.*.self_link,1)}"
     access_config {
       // Ephemeral IP
     }
