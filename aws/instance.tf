@@ -16,6 +16,27 @@ resource "aws_instance" "example" {
     Name = "CloudBreak-2.5-Deploy"
     TTL = 72
   }
+
+  # Copies the myapp.conf file to /etc/myapp.conf
+  provisioner "file" {
+    source      = "scripts/runcbd.sh"
+    destination = "/var/lib/cloudbreak-deployment/runcbd.sh"
+   }
+
+ provisioner "remote-exec" {
+   inline = [
+    "cd /var/lib/cloudbreak-deployment/",
+    "chmod +x runcbd.sh",
+    "./runcbd.sh ${var.UAA_DEFAULT_SECRET} ${var.UAA_DEFAULT_USER_PW} ${var.UAA_DEFAULT_USER_EMAIL}"
+  ]
+ }
+   connection {
+     Type = "ssh"
+     user = "${var.INSTANCE_USERNAME}"
+     #private_key = "${file(${var.path_to_private_key})}"
+     private_key = "${var.PRIVATE_KEY}"
+    }
+
 }
 
 output "ip" {
