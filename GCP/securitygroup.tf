@@ -14,7 +14,7 @@ resource "google_compute_firewall" "nat" {
   }
 
   source_ranges = ["${var.MY_IP}"]
-  target_tags   = ["cb_allow-ssh-https"]
+  target_tags   = ["cb-allow-ssh-https"]
 }
 
 /* INGRESS ONLY FOR TFE */
@@ -29,7 +29,7 @@ resource "google_compute_firewall" "nat-tfe" {
   }
 
   source_ranges = ["${var.TFE_IP}"]
-  target_tags   = ["cb_tfe_allow-ssh"]
+  target_tags   = ["cb-tfe-allow-ssh"]
 }
 
 # EGRESS #

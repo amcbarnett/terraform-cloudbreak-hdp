@@ -39,17 +39,19 @@ resource "google_compute_subnetwork" "private" {
 #
 # Public
 #
+/*
 resource "google_compute_route" "public" {
   count = "${length(var.vpc_cidrs_public)}"
 
   name                   = "${var.environment_name}-public-${count.index}"
   dest_range             = "0.0.0.0/0"
   network                = "${google_compute_network.main.name}"
-  next_hop_gateway       = "${element(google_compute_subnetwork.public.*.gateway_address,count.index)}"
+  next_hop_ip            = "${element(google_compute_subnetwork.public.*.gateway_address,count.index)}"
   priority               = 100
 
   tags = [
     "public-subnet",
-    #"zone-${element(google_compute_subnetwork.public.*.gateway_address,count.index)}",
+    "zone-${element(google_compute_subnetwork.public.*.name,count.index)}",
   ]
 }
+*/

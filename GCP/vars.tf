@@ -39,6 +39,16 @@ variable "TFE_IP" {
   #TFE Saas IP Address
   default = "0.0.0.0/0"
 }
+
+variable "INSTANCE_NAME" {
+  default = "n1-standard-4"
+  description = "GCP Machine types are https://cloud.google.com/compute/docs/machine-types"
+}
+
+variable "INSTANCE_USERNAME" {
+  default = "cloudbreak"
+}
+
 /*
 variable "SSH_KEY_NAME" {
   default = "cloudbreakkeypair"
@@ -47,13 +57,9 @@ variable "SSH_KEY_NAME" {
 
 
 
-variable "INSTANCE_NAME" {
-  default = "t2.micro"
-}
 
-variable "INSTANCE_USERNAME" {
-  default = "cloudbreak"
-}
+
+
 
 
 
